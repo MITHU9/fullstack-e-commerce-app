@@ -18,6 +18,7 @@ import {
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
 import { Avatar, AvatarFallback } from "./ui/avatar";
+import logoutAction from "@/actions/auth/logout";
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -79,7 +80,11 @@ const Navbar = () => {
     router.push(`/search?q=${searchQuery}`);
   };
 
-  const handleLogout = () => {};
+  const handleLogout = async () => {
+    await logoutAction();
+    router.push("/");
+    setUser(null);
+  };
 
   return (
     <motion.div
@@ -203,30 +208,29 @@ const Navbar = () => {
                       </p>
                     </div>
                   </DropdownMenuLabel>
-                  <DropdownMenuSeparator className="bg-gray-800">
-                    <DropdownMenuItem className="focus:bg-gray-800 focus:text-[#00ffff]">
-                      <Link href="/profile" className="flex w-full ">
-                        <User className="mr-2 size-4" />
-                        <span>Profile</span>
-                      </Link>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem className="focus:bg-gray-800 focus:text-[#00ffff]">
-                      <Bell className="mr-2 size-4">
-                        <span>Notification</span>
-                      </Bell>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem className="focus:bg-gray-800 focus:text-[#00ffff]">
-                      <Link href="/orders" className="flex w-full ">
-                        <User className="mr-2 size-4" />
-                        <span>Orders</span>
-                      </Link>
-                    </DropdownMenuItem>
-                  </DropdownMenuSeparator>
+                  <DropdownMenuSeparator className="bg-gray-800" />
+                  <DropdownMenuItem className="focus:bg-gray-800 focus:text-[#00ffff]">
+                    <Link href="/profile" className="flex w-full ">
+                      <User className="mr-2 size-4" />
+                      <span>Profile</span>
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem className="focus:bg-gray-800 focus:text-[#00ffff]">
+                    <Bell className="mr-0 size-4" />
+                    <span>Notifications</span>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem className="focus:bg-gray-800 focus:text-[#00ffff]">
+                    <Link href="/orders" className="flex w-full ">
+                      <ShoppingCart className="mr-2 size-4" />
+                      <span>Orders</span>
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator className="bg-gray-800" />
                   <DropdownMenuItem
                     className="focus:bg-gray-800 focus:text-[#00ffff]"
                     onClick={handleLogout}
                   >
-                    <LogOut className="mr-2 size-4" />
+                    <LogOut className="mr-0 size-4" />
                     <span>Logout</span>
                   </DropdownMenuItem>
                 </DropdownMenuContent>
