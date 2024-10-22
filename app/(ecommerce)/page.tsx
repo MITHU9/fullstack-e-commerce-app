@@ -24,10 +24,10 @@ export default function Home() {
 
   useEffect(() => {
     const fetchCatalog = async () => {
-      const catalogs = await getCatalogProducts();
+      const catalog = await getCatalogProducts();
       //console.log(catalogs);
-      if (catalogs?.length) {
-        setProducts(catalogs);
+      if (catalog?.length) {
+        setProducts(catalog);
         setIsLoading(false);
       }
     };
@@ -101,7 +101,7 @@ export default function Home() {
         {Products.map((product) => (
           <ProductCatalog
             key={product.id}
-            title={product.localizeInfos?.title}
+            title={product.localizeInfos?.title || "Default Title"}
             products={product.catalogProducts.items}
           />
         ))}

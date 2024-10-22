@@ -29,6 +29,7 @@ import {
 } from "./ui/dropdown-menu";
 import { Avatar, AvatarFallback } from "./ui/avatar";
 import logoutAction from "@/actions/auth/logout";
+import useCartStore from "@/stores/cartStore";
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -39,6 +40,7 @@ const Navbar = () => {
   const [user, setUser] = useState<IUserEntity | null>(null);
   const searchRef = useRef<HTMLDivElement>(null);
   const mobileMenuRef = useRef<HTMLDivElement>(null);
+  const cartItems = useCartStore((state) => state.cart);
   const router = useRouter();
 
   useEffect(() => {
@@ -199,6 +201,11 @@ const Navbar = () => {
                   className="relative bg-gray-800 hover:text-[#00ffff]"
                 >
                   <ShoppingCart className="size-5 to-gray-300 " />
+                  {cartItems.length > 0 && (
+                    <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-bold rounded-full px-1">
+                      {cartItems.length}
+                    </span>
+                  )}
                 </Button>
               </Link>
             </motion.div>
