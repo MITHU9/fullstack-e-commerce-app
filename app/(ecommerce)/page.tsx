@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import { getCatalogProducts } from "@/actions/catalog/getCatalogProducts";
 import { ICatalog } from "@/types/catalog";
+import ProductCatalog from "@/components/ProductCatalog";
 
 const banners = [
   {
@@ -96,6 +97,14 @@ export default function Home() {
             ))}
           </motion.div>
         )}
+
+        {Products.map((product) => (
+          <ProductCatalog
+            key={product.id}
+            title={product.localizeInfos?.title}
+            products={product.catalogProducts.items}
+          />
+        ))}
       </main>
     </div>
   );
