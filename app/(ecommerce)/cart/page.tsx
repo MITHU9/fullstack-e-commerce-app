@@ -9,7 +9,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Trash2 } from "lucide-react";
+import { CreditCard, LogInIcon, ShoppingCart, Trash2 } from "lucide-react";
 
 const Cart = () => {
   const router = useRouter();
@@ -160,11 +160,109 @@ const Cart = () => {
                   </motion.div>
                 ))
               ) : (
-                <div className="text-center font-bold text-xl">
-                  Your cart is empty! add some items to cart.
-                </div>
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5 }}
+                >
+                  <ShoppingCart className="mx-auto size-20 text-gray-400" />
+                  <h2 className="text-center text-[#00ffff] mb-2 font-bold text-xl">
+                    Your cart is empty! add some items to cart.
+                  </h2>
+                  <p className="text-gray-400 mb-6 text-center">
+                    looks like you haven&apos;t added any items to your cart
+                    yet.
+                  </p>
+                  <div className="flex items-center justify-center">
+                    <Button
+                      onClick={() => router.push("/")}
+                      className="bg-[#00ffff] hover:bg-[#00cccc] text-gray-900 font-semibold"
+                    >
+                      Continue Shopping
+                    </Button>
+                  </div>
+                </motion.div>
               )}
             </AnimatePresence>
+
+            {cartItems.length > 0 && (
+              <motion.div
+                className="bg-gray-800 rounded-lg shadow-lg p-4 sm:p-6 mt-4"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5 }}
+              >
+                <div className="flex justify-between">
+                  <div>
+                    <h3 className="text-xl font-semibold text-[#00ffff]">
+                      Subtotal
+                    </h3>
+                    <p className="text-gray-400">Items in your cart</p>
+                  </div>
+                  <div>
+                    <p className="text-xl font-semibold text-[#00ffff]">
+                      ${subTotal.toFixed(2)}
+                    </p>
+                  </div>
+                </div>
+                <div className="flex justify-between mt-4">
+                  <div>
+                    <h3 className="text-xl font-semibold text-[#00ffff]">
+                      Tax
+                    </h3>
+                    <p className="text-gray-400">7% tax</p>
+                  </div>
+                  <div>
+                    <p className="text-xl font-semibold text-[#00ffff]">
+                      ${tax.toFixed(2)}
+                    </p>
+                  </div>
+                </div>
+                <div className="flex justify-between mt-4">
+                  <div>
+                    <h3 className="text-xl font-semibold text-[#00ffff]">
+                      Total
+                    </h3>
+                    <p className="text-gray-400">Total amount</p>
+                  </div>
+                  <div>
+                    <p className="text-xl font-semibold text-[#00ffff]">
+                      ${total.toFixed(2)}
+                    </p>
+                  </div>
+                </div>
+                {user ? (
+                  <div className="mt-6">
+                    <Button
+                      onClick={() => router.push("/checkout")}
+                      className="w-full bg-[#00ffff] hover:bg-[#00cccc] text-gray-900 font-semibold"
+                    >
+                      <CreditCard size={24} />
+                      Proceed to Checkout
+                    </Button>
+                  </div>
+                ) : (
+                  <div className="mt-6">
+                    <Button
+                      onClick={() => router.push("/auth?type=login")}
+                      className="bg-[#00ffff] hover:bg-[#00cccc] w-full text-gray-900 font-semibold"
+                    >
+                      <LogInIcon size={24} />
+                      Login to Checkout
+                    </Button>
+                  </div>
+                )}
+
+                <div className="mt-6">
+                  <Button
+                    onClick={() => clearCart()}
+                    className="bg-[#00ffff] hover:bg-[#00cccc] text-gray-900 font-semibold"
+                  >
+                    Clear Cart
+                  </Button>
+                </div>
+              </motion.div>
+            )}
           </>
         )}
       </motion.div>
