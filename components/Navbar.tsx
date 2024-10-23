@@ -108,7 +108,7 @@ const Navbar = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (searchQuery.trim() === "") return;
-    router.push(`/search?q=${searchQuery}`);
+    router.push(`/search?searchTerm=${searchQuery}`);
   };
 
   const handleLogout = async () => {
@@ -116,6 +116,14 @@ const Navbar = () => {
     router.push("/");
     setUser(null);
     setIsMobileMenuOpen(false);
+  };
+
+  const handleSearchBtn = () => {
+    if (searchQuery.trim() === "") {
+      setIsSearchOpen(!isSearchOpen);
+    } else {
+      setIsSearchOpen(true);
+    }
   };
 
   return (
@@ -177,7 +185,7 @@ const Navbar = () => {
                   className="absolute right-0 top-0 bottom-0 bg-transparent hover:text-[#00ffff] hover:bg-transparent"
                   type="submit"
                   size="icon"
-                  onClick={() => setIsSearchOpen(!isSearchOpen)}
+                  onClick={handleSearchBtn}
                 >
                   <Search className="size-5 to-gray-300 " />
                 </Button>

@@ -10,6 +10,8 @@ import Image from "next/image";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { CreditCard, LogInIcon, ShoppingCart, Trash2 } from "lucide-react";
+import { IOrderData } from "oneentry/dist/orders/ordersInterfaces";
+import createOrder from "@/actions/orders/createOrder";
 
 const Cart = () => {
   const router = useRouter();
@@ -46,6 +48,22 @@ const Cart = () => {
     const timer = setTimeout(() => setIsLoading(false), 1500);
     return () => clearTimeout(timer);
   }, []);
+
+  const createOrderAndCheckout = async () => {
+    const data: IOrderData = {
+      formData: [],
+      formIdentifier: "order-form",
+      paymentAccountIdentifier: "stripe-payment",
+      products: cartItems.map((item) => ({
+        productId: item.id,
+        quantity: item.quantity,
+      })),
+    };
+
+    const url = await createOrder(data);
+    clearCart();
+    router.push(url);
+  };
 
   return (
     <div className="min-h-screen bg-gray-900 p-4 sm:p-8 text-gray-100">
@@ -234,7 +252,8 @@ const Cart = () => {
                 {user ? (
                   <div className="mt-6">
                     <Button
-                      onClick={() => router.push("/checkout")}
+                      onClick={createOrderAndCheckout}
+                      disabled={cartItems.length === 0}
                       className="w-full bg-[#00ffff] hover:bg-[#00cccc] text-gray-900 font-semibold"
                     >
                       <CreditCard size={24} />
