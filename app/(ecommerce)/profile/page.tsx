@@ -38,8 +38,8 @@ const ProfilePage = () => {
   useEffect(() => {
     const fetchUser = async () => {
       const user = await getUserSession();
-      if (user) {
-        setUser(user);
+      if (user && "id" in user) {
+        setUser(user as IUserEntity);
       }
 
       const orders = await getOrders();
